@@ -1,18 +1,58 @@
-version: '3.8'                            # file format version
+version: '3.8'                                          # file format version
 
-services:                                 # define services (containers)
+services:                                               # define services (containers)
   mariadb:
     container_name: mariadb
-    build: ./requirements/mariadb         # docker will build image from dockerfile located at file
-    image: mariadb_image                  # after build docker will tag image as name
-    restart: always                       # if container stops or server reboots docker automatically restarts container
-    env_file: .env                        # loads env vars from file
+    build: ./requirements/mariadb                       # docker will build image from dockerfile located at file
+    image: mariadb_image                                # after build docker will tag image as name
+    restart: always                                     # if container stops or server reboots docker automatically restarts container
+    env_file: .env                                      # loads env vars from file
     environment:
       MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
       MYSQL_DATABASE: ${WORDPRESS_DATABASE_NAME}
       MYSQL_USER: ${DATABASE_USER}
       MYSQL_PASSWORD: ${DATABASE_USER_PASSWORD}
-    volumes:                              # if container is deleted without a volume you lose your database
-      - mariadb_data:/var/lib/mysql       # where mariadb stores it's database files
+    volumes:                                            # if container is deleted without a volume you lose your database
+      - mariadb_data:/var/lib/mysql                     # where mariadb stores it's database files
     networks:
-      - inception                         # attaches mariadb container to custom docker netword
+      - inception                                       # attaches mariadb container to custom docker network
+  
+  wordpress:
+    container_name: wordpress
+    build: ./requirements/wordpress
+    image: wordpress_image
+    restart: always
+    env_file: .env
+    depends_on:
+      - mariadb
+    environment:
+      WORDPRESS_DB_HOST: mariadb:3306                   # default port for mariadb and mysql servers listen for database connections
+      WORDPRESS_DB_NAME: ${WORDPRESS_DATABASE_NAME}
+      WORDPRESS_DB_USER: ${DATABASE_USER}
+      WORDPRESS_DB_PASSWORD: ${DATABASE_USER_PASSWORD}
+    volumes:
+      - wordpress_data:/var/www/html
+    networks:
+      - inception
+  
+  nginx:
+    container_name: nginx
+    build: ./requirements/nginx
+    image: nginx_image
+    restart: always
+    depends_on:
+      - wordpress
+    ports:                                              # host:container format  host: host machine port(laptop/vm) container: container's port (inside nginx container)
+     - "443:443"                                        # binds containers port to host machine's port
+    volumes:
+      - wordpress_data:/var/www/html                    # Both need wordpress_data because they both work on the same WordPress website files, but for different reasons (PHP execution vs web serving)
+    networks:
+      - inception
+
+volumes:                                                # defines named persistent storage volumes, safe storage surviving container restarts/rebuilds
+  mariadb_data:                                         # store database files outside container filesystem so when container is deleted or rebuilt, no important data is lost
+  wordpress_data:                                       # store wordpress website files (php code, images uploaded etc)
+
+networks:                                               # defines private network connecting containers
+  inception:
+    driver: bridge                                      # default nework driver for isolated private communication inside single docker host containers on the same bridge can talk by name (not IP) outside containers cant reach unless expose port

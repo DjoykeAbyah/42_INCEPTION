@@ -35,3 +35,19 @@ volumes:
 	/var/lib/docker/volumes/
 	docker volume ls
 	docker volume inspect mariadb_data
+
+
+-g "daemon off;":
+	Normally, when you run NGINX, it starts running in the background (called “daemon mode”). That’s useful on a normal computer, but in a Docker container, we want the main program to run in the foreground (stay active in front).
+
+	Docker containers stop running when the main program exits.
+	If NGINX runs in the background and then exits the foreground process, Docker thinks the container is done and shuts it down.
+
+deamon:
+	a program that runs in the background, doing its job silently while you do other things.
+	
+	e.g:
+		Bluetooth service
+		Wi-Fi connection manager
+		Printer service
+		Web server (like NGINX)

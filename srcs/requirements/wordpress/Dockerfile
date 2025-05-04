@@ -40,6 +40,4 @@ EXPOSE 9000
 # it tells docker how to run the comand without using a shell /bin/sh
 # -F is foreground
 # this is more reliable for this purpose than shell because shell might interpret special char incorrect plus more layers is more chances for bugs
-CMD ["php-fpm, "-F"]
-
-
+CMD ["php-fpm", "-F"]

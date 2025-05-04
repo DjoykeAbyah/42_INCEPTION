@@ -49,4 +49,3 @@ EXPOSE 3306
 # Tells Docker to run the MariaDB server when the container starts.
 
 CMD ["mysqld"]
-

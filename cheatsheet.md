@@ -51,3 +51,11 @@ deamon:
 		Wi-Fi connection manager
 		Printer service
 		Web server (like NGINX)
+
+makefile:
+	-f specifies path to custom file.
+	--env-file tells to load environment variables from specific env file.
+	build: builds docker images
+	up: creates and starts containers based on images and config
+	down: stops and removes containers/networks/volumes
+	docker rmi mariadb_image wordpress_image nginx_image || true if docker rm fails ensures makefile does not crash or stop

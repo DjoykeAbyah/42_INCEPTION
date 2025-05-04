@@ -27,7 +27,7 @@ WORKDIR /var/www/html
 # copies all wordpress files to current working directory recursive for all directories and files
 # cleanup deleting extracted folder
 # curl scriptable web browser, can download files, send data, make API requests etc
-RUN curl -0 https://wordpress.org/latest.tar.gz && \
+RUN curl -O https://wordpress.org/latest.tar.gz && \
 	tar -xzf latest.tar.gz && \
 	cp -r wordpress/* . && \
 	rm -rf wordpress latest.tar.gz

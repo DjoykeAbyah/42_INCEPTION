@@ -9,7 +9,7 @@ FROM debian:bullseye
 # command line downloader wget not used in this script do we need it?
 # unzip tool to extract .zip archives
 RUN apt-get update && \
-	apt-get install -y php php-fpm php-mysql curl wget unzip && \
+	apt-get install -y php php-fpm php-mysql curl wget unzip default-mysql-client && \
 	apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # set working directory for all subsequent instructions
@@ -32,7 +32,12 @@ RUN curl -O https://wordpress.org/latest.tar.gz && \
 	cp -r wordpress/* . && \
 	rm -rf wordpress latest.tar.gz
 
+# copy php config into machine config
 COPY ./tools/www.conf /etc/php/7.4/fpm/pool.d/www.conf
+
+# Copy and set permissions for the setup script
+COPY ./tools/setup-wordpress.sh /setup-wordpress.sh
+RUN chmod +x /setup-wordpress.sh
 
 # expose php-fpm port used to receive php script execution requests
 EXPOSE 9000
@@ -40,9 +45,15 @@ EXPOSE 9000
 # to bind to /run/php/php7.4-fpm.sock, but the directory /run/php does not exist at runtime
 RUN mkdir -p /run/php && chown -R www-data:www-data /var/www/html
 
+# Install WP-CLI
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+    chmod +x wp-cli.phar && \
+    mv wp-cli.phar /usr/local/bin/wp
+
 # start php-fpm in foreground
 # [] is the exec form of the cmd instruction in docker
 # it tells docker how to run the comand without using a shell /bin/sh
 # -F is foreground
 # this is more reliable for this purpose than shell because shell might interpret special char incorrect plus more layers is more chances for bugs
-CMD ["php-fpm7.4", "-F"]
+# CMD ["php-fpm7.4", "-F"]
+CMD ["/setup-wordpress.sh"]

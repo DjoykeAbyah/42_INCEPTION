@@ -104,3 +104,28 @@ root@0792eb0885ae:/var/www/html# touch index.html
 root@0792eb0885ae:/var/www/html# cat index.html
 root@0792eb0885ae:/var/www/html# echo omg > index.html
 root@0792eb0885ae:/var/www/html# mv index.php annoying.php
+
+
+
+
+todo
+1. Script aanmaken voor wordpress initializatie
+	wp config create
+	wp core install
+	wp user create
+2. Kijken of het nu goed gaat, mogelijk werkt het meteen dan top ben je lekker klaar. Anders is het of iets met de config fout gegaan of er gaat iets fout met mariadb
+3. Dit zou dan een beetje debuggen zijn
+	dingen om te proberen
+	misschien is de config file van mariadb niet helemaal pluis
+	of hij word niet in de container in de juiste directory gekopieerd
+	anders I dunno
+	Typos in de variable namen?
+	permissions voor folders die misschien niet helemaal goed zitten
+4. Je volumes moeten nog aangepast worden zodat ze vanuit de juiste directory komen. Nu hebben ze een soort default directory in een docker directory ergens in root, de subject wil ze graag in $HOME/data
+5. eventueel secrets als je daar nog zin in hebt
+6. dan op Codam een VM opzetten en daarin nog de hosts file aanpassen, een paar packages installeren etc.
+7. voor de eval, hopelijk heeft Anna die verstuurt, maar het is misschien handig om een beetje comfortabel te zijn met de basic docker commands zoals je favoriet "docker exec -it ...", docker ps, docker logs
+Ook tijdens de eval moet je de database laten zien, dus voorbereid zijn om de mariadb container in te loeren, in mysql te gaan en dan de database laten zien en nog misschien een paar tables in de database
+een paar curl commands leren, dit kun je aan mij vragen voordat je de eval begint
+en dan nog snel even kijken hoe je in wordpress een pagina moet aanpassen, hoe je als admin inlogt etc.
+nog regelen dat de .env file niet in de intra repository zit

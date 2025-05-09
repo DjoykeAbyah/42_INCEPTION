@@ -109,7 +109,6 @@ root@0792eb0885ae:/var/www/html# mv index.php annoying.php
 
 
 todo
-4. Je volumes moeten nog aangepast worden zodat ze vanuit de juiste directory komen. Nu hebben ze een soort default directory in een docker directory ergens in root, de subject wil ze graag in $HOME/data
 5. eventueel secrets als je daar nog zin in hebt
 6. dan op Codam een VM opzetten en daarin nog de hosts file aanpassen, een paar packages installeren etc.
 7. voor de eval, hopelijk heeft Anna die verstuurt, maar het is misschien handig om een beetje comfortabel te zijn met de basic docker commands zoals je favoriet "docker exec -it ...", docker ps, docker logs

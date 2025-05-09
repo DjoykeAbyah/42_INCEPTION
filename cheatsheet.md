@@ -85,4 +85,15 @@ command line:
 	mysql:
 		info added here
 
-/etc/php/7.4/fpm/pool.d# cat www.conf 
+/etc/php/7.4/fpm/pool.d# cat www.conf
+
+uri:
+	Example Breakdown
+	If the user visits:
+
+	https://dreijans.42.fr/blog/article.php?id=42
+	Then:
+
+	$uri = /blog/article.php
+	Query string ($args) = id=42
+	Full $request_uri = /blog/article.php?id=42

@@ -97,3 +97,10 @@ uri:
 	$uri = /blog/article.php
 	Query string ($args) = id=42
 	Full $request_uri = /blog/article.php?id=42
+
+
+root@0792eb0885ae:/var# cd www/html
+root@0792eb0885ae:/var/www/html# touch index.html
+root@0792eb0885ae:/var/www/html# cat index.html
+root@0792eb0885ae:/var/www/html# echo omg > index.html
+root@0792eb0885ae:/var/www/html# mv index.php annoying.php

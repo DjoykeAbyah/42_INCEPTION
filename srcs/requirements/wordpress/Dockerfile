@@ -32,6 +32,8 @@ RUN curl -O https://wordpress.org/latest.tar.gz && \
 	cp -r wordpress/* . && \
 	rm -rf wordpress latest.tar.gz
 
+COPY ./tools/www.conf /etc/php/7.4/fpm/pool.d/www.conf
+
 # expose php-fpm port used to receive php script execution requests
 EXPOSE 9000
 

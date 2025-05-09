@@ -8,20 +8,22 @@ services:                                               # define services (conta
       args:
         WORDPRESS_DATABASE_NAME: ${WORDPRESS_DATABASE_NAME}
         DATABASE_USER: ${DATABASE_USER}
-        DATABASE_USER_PASSWORD: ${DATABASE_USER_PASSWORD}
     image: mariadb_image                                # after build docker will tag image as name
     restart: always                                     # if container stops or server reboots docker automatically restarts container
     env_file: .env                                      # loads env vars from file
     environment:
-      MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      MYSQL_PASSWORD_FILE: /run/secrets/db_user_password
       MYSQL_DATABASE: ${WORDPRESS_DATABASE_NAME}
       MYSQL_USER: ${DATABASE_USER}
-      MYSQL_PASSWORD: ${DATABASE_USER_PASSWORD}
     volumes:                                            # if container is deleted without a volume you lose your database
       # - ${HOME}/data/mariadb:/var/lib/mysql             # where mariadb stores it's database filesdoc, previously mariadb_data:/var/lib/mysql
       - mariadb_data:/var/lib/mysql 
     networks:
       - inception                                       # attaches mariadb container to custom docker network
+    secrets:
+      - db_root_password
+      - db_user_password
   
   wordpress:
     container_name: wordpress
@@ -32,16 +34,22 @@ services:                                               # define services (conta
     depends_on:
       - mariadb
     environment:
+      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/db_user_password
+      WORDPRESS_ADMIN_PASSWORD_FILE: /run/secrets/wp_admin_password
+      WORDPRESS_USER_PASSWORD_FILE: /run/secrets/wp_user_password
       WORDPRESS_DB_HOST: mariadb:3306                   # default port for mariadb and mysql servers listen for database connections
       WORDPRESS_DB_NAME: ${WORDPRESS_DATABASE_NAME}
       WORDPRESS_DB_USER: ${DATABASE_USER}
-      WORDPRESS_DB_PASSWORD: ${DATABASE_USER_PASSWORD}
     volumes:
       # - ${HOME}/data/wordpress:/var/www/html            # previously wordpress_data:/var/www/html
       - wordpress_data:/var/www/html
     networks:
       - inception
-  
+    secrets:
+      - wp_admin_password
+      - wp_user_password
+      - db_user_password
+
   nginx:
     container_name: nginx
     build: ./requirements/nginx
@@ -64,3 +72,13 @@ volumes:                                                # defines named persiste
 networks:                                               # defines private network connecting containers
   inception:
     driver: bridge                                      # default nework driver for isolated private communication inside single docker host containers on the same bridge can talk by name (not IP) outside containers cant reach unless expose port
+
+secrets:
+  db_root_password:
+    file: ./secrets/db_root_password.txt
+  db_user_password:
+    file: ./secrets/db_user_password.txt
+  wp_admin_password:
+    file: ./secrets/wp_admin_password.txt
+  wp_user_password:
+    file: ./secrets/wp_user_password.txt

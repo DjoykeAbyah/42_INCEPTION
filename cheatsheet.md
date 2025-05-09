@@ -109,7 +109,6 @@ root@0792eb0885ae:/var/www/html# mv index.php annoying.php
 
 
 todo
-5. eventueel secrets als je daar nog zin in hebt
 6. dan op Codam een VM opzetten en daarin nog de hosts file aanpassen, een paar packages installeren etc.
 7. voor de eval, hopelijk heeft Anna die verstuurt, maar het is misschien handig om een beetje comfortabel te zijn met de basic docker commands zoals je favoriet "docker exec -it ...", docker ps, docker logs
 Ook tijdens de eval moet je de database laten zien, dus voorbereid zijn om de mariadb container in te loeren, in mysql te gaan en dan de database laten zien en nog misschien een paar tables in de database

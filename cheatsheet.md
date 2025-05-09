@@ -59,3 +59,9 @@ makefile:
 	up: creates and starts containers based on images and config
 	down: stops and removes containers/networks/volumes
 	docker rmi mariadb_image wordpress_image nginx_image || true if docker rm fails ensures makefile does not crash or stop
+
+
+command line:
+	docker ps
+	docker logs wordpress
+	docker logs nginx

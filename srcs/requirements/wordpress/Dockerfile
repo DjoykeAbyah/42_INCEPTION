@@ -1,4 +1,4 @@
-FROM debian:bookworm-slim
+FROM debian:bullseye
 
 # install required packages
 # installs base php language runtime/interperter
@@ -35,9 +35,12 @@ RUN curl -O https://wordpress.org/latest.tar.gz && \
 # expose php-fpm port used to receive php script execution requests
 EXPOSE 9000
 
+# to bind to /run/php/php7.4-fpm.sock, but the directory /run/php does not exist at runtime
+RUN mkdir -p /run/php && chown -R www-data:www-data /var/www/html
+
 # start php-fpm in foreground
 # [] is the exec form of the cmd instruction in docker
 # it tells docker how to run the comand without using a shell /bin/sh
 # -F is foreground
 # this is more reliable for this purpose than shell because shell might interpret special char incorrect plus more layers is more chances for bugs
-CMD ["php-fpm", "-F"]
+CMD ["php-fpm7.4", "-F"]

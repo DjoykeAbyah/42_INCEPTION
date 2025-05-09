@@ -1,4 +1,4 @@
-FROM debian:bookworm-slim
+FROM debian:bullseye
 
 # updates list of available packages and versions.
 # instals nginx webserver.
@@ -25,4 +25,4 @@ EXPOSE 443
 # runs nginx in the foreground (docker keeps the container running)
 # prevents nginx from background
 
-CMD ["nginx", "-g", "deamon off;"]
+CMD ["nginx", "-g", "daemon off;"]

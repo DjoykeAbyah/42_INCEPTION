@@ -1,4 +1,4 @@
-FROM debian:bookworm-slim
+FROM debian:bullseye
 
 # update the package ensuring you're installing most current version.
 # installs mariadb specific packages, auto accept prompt with -y (no manual interaction).

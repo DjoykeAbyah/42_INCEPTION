@@ -109,18 +109,6 @@ root@0792eb0885ae:/var/www/html# mv index.php annoying.php
 
 
 todo
-1. Script aanmaken voor wordpress initializatie
-	wp config create
-	wp core install
-	wp user create
-2. Kijken of het nu goed gaat, mogelijk werkt het meteen dan top ben je lekker klaar. Anders is het of iets met de config fout gegaan of er gaat iets fout met mariadb
-3. Dit zou dan een beetje debuggen zijn
-	dingen om te proberen
-	misschien is de config file van mariadb niet helemaal pluis
-	of hij word niet in de container in de juiste directory gekopieerd
-	anders I dunno
-	Typos in de variable namen?
-	permissions voor folders die misschien niet helemaal goed zitten
 4. Je volumes moeten nog aangepast worden zodat ze vanuit de juiste directory komen. Nu hebben ze een soort default directory in een docker directory ergens in root, de subject wil ze graag in $HOME/data
 5. eventueel secrets als je daar nog zin in hebt
 6. dan op Codam een VM opzetten en daarin nog de hosts file aanpassen, een paar packages installeren etc.

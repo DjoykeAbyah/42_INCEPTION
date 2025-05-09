@@ -30,6 +30,20 @@ RUN mkdir -p /var/run/mysqld && \
 	chown -R mysql:mysql /var/run/mysqld /var/lib/mysql && \
 	chmod 755 /var/run/mysqld
 
+ARG WORDPRESS_DATABASE_NAME
+ARG DATABASE_USER
+ARG DATABASE_USER_PASSWORD
+
+# Setting up the database, user, and permissions in bootstrap mode. 
+# --bootstrap: Runs MariaDB in a lightweight, non-networked mode without plugins, or other unnecessary features during initialization.
+
+RUN mysqld --bootstrap <<EOF
+FLUSH PRIVILEGES;
+CREATE DATABASE IF NOT EXISTS ${WORDPRESS_DATABASE_NAME};
+CREATE USER IF NOT EXISTS '${DATABASE_USER}'@'%' IDENTIFIED BY '${DATABASE_USER_PASSWORD}';
+GRANT ALL PRIVILEGES ON ${WORDPRESS_DATABASE_NAME} .* TO '${DATABASE_USER}'@'%';
+FLUSH PRIVILEGES;
+EOF
 
 # declares default data directory as docker volume.
 # Ensures database data is persisted beyond the container lifecycle

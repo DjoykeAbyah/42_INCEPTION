@@ -65,3 +65,24 @@ command line:
 	docker ps
 	docker logs wordpress
 	docker logs nginx
+
+	mysql -u met username does not ask for password denies acess
+	mysql -u username -p asks password and I can authenticate
+
+	docker exec: 
+		runs commands inside the docker container
+	docker exec -it wordpress bash
+		root@e42673a5278f:/var/www/html# 
+	➜ docker exec -it wordpress ls
+		eg:
+		index.php    readme.html      wp-admin            wp-comments-post.php  wp-content   wp-includes        wp-load.php   wp-mail.php      wp-signup.php     xmlrpc.php
+		license.txt  wp-activate.php  wp-blog-header.php  wp-config-sample.php  wp-cron.php  wp-links-opml.php  wp-login.php  wp-settings.php  wp-trackback.php
+	
+	in mariadb:
+		mysql
+		show databases;
+	
+	mysql:
+		info added here
+
+/etc/php/7.4/fpm/pool.d# cat www.conf 

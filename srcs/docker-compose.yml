@@ -1,21 +1,26 @@
 version: '3.8'                                          # file format version
 
 services:                                               # define services (containers)
-  # mariadb:
-  #   container_name: mariadb
-  #   build: ./requirements/mariadb                       # docker will build image from dockerfile located at file
-  #   image: mariadb_image                                # after build docker will tag image as name
-  #   restart: always                                     # if container stops or server reboots docker automatically restarts container
-  #   env_file: .env                                      # loads env vars from file
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
-  #     MYSQL_DATABASE: ${WORDPRESS_DATABASE_NAME}
-  #     MYSQL_USER: ${DATABASE_USER}
-  #     MYSQL_PASSWORD: ${DATABASE_USER_PASSWORD}
-  #   volumes:                                            # if container is deleted without a volume you lose your database
-  #     - mariadb_data:/var/lib/mysql                     # where mariadb stores it's database files
-  #   networks:
-  #     - inception                                       # attaches mariadb container to custom docker network
+  mariadb:
+    container_name: mariadb
+    build:
+      context: ./requirements/mariadb
+      args:
+        WORDPRESS_DATABASE_NAME: ${WORDPRESS_DATABASE_NAME}
+        DATABASE_USER: ${DATABASE_USER}
+        DATABASE_USER_PASSWORD: ${DATABASE_USER_PASSWORD}
+    image: mariadb_image                                # after build docker will tag image as name
+    restart: always                                     # if container stops or server reboots docker automatically restarts container
+    env_file: .env                                      # loads env vars from file
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${WORDPRESS_DATABASE_NAME}
+      MYSQL_USER: ${DATABASE_USER}
+      MYSQL_PASSWORD: ${DATABASE_USER_PASSWORD}
+    volumes:                                            # if container is deleted without a volume you lose your database
+      - mariadb_data:/var/lib/mysql                     # where mariadb stores it's database filesdoc
+    networks:
+      - inception                                       # attaches mariadb container to custom docker network
   
   wordpress:
     container_name: wordpress
@@ -23,8 +28,8 @@ services:                                               # define services (conta
     image: wordpress_image
     restart: always
     env_file: .env
-    # depends_on:
-    #   - mariadb
+    depends_on:
+      - mariadb
     environment:
       WORDPRESS_DB_HOST: mariadb:3306                   # default port for mariadb and mysql servers listen for database connections
       WORDPRESS_DB_NAME: ${WORDPRESS_DATABASE_NAME}

@@ -109,9 +109,16 @@ root@0792eb0885ae:/var/www/html# mv index.php annoying.php
 
 
 todo
-6. dan op Codam een VM opzetten en daarin nog de hosts file aanpassen, een paar packages installeren etc.
-7. voor de eval, hopelijk heeft Anna die verstuurt, maar het is misschien handig om een beetje comfortabel te zijn met de basic docker commands zoals je favoriet "docker exec -it ...", docker ps, docker logs
-Ook tijdens de eval moet je de database laten zien, dus voorbereid zijn om de mariadb container in te loeren, in mysql te gaan en dan de database laten zien en nog misschien een paar tables in de database
-een paar curl commands leren, dit kun je aan mij vragen voordat je de eval begint
-en dan nog snel even kijken hoe je in wordpress een pagina moet aanpassen, hoe je als admin inlogt etc.
-nog regelen dat de .env file niet in de intra repository zit
+
+1. hostfile aanpassen dreijans.42.fr moet het doen /etc/hosts
+2. een paar curl commands leren, dit kun je aan mij vragen voordat je de eval begint
+- curl http://localhost:443 to check if http works
+- for https self signed certificate -k
+3. hoe je in wordpress een pagina moet aanpassen.
+4. hoe je als admin inlogt etc
+5. commands leren tabel in database laten zien
+6. in mysql te gaan en dan de database laten zien
+7. mariadb container in te loeren
+8. basic docker commands zoals je favoriet "docker exec -it ...", docker ps, docker logs
+9. verschil container virtual machine
+10. ssl certificate what is that?

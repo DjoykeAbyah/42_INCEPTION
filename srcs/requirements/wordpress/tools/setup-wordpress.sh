@@ -25,14 +25,14 @@ if [ ! -f /var/www/html/wp-config.php ]; then
         --url="${DOMAIN_NAME}" \
         --title="inception" \
         --admin_user="${WORDPRESS_ADMIN}" \
-        --dbpass="$(cat /run/secrets/wp_admin_password)" \
+        --admin_password="$(cat /run/secrets/wp_admin_password)" \
         --admin_email="${WORDPRESS_ADMIN_EMAIL}" \
         --allow-root
 
     echo "Creating WordPress User..." 
     wp user create ${WORDPRESS_USER} ${WORDPRESS_USER_EMAIL} \
         --path="/var/www/html" \
-        --dbpass="$(cat /run/secrets/wp_user_password)" \
+        --user_pass="$(cat /run/secrets/wp_user_password)" \
         --role=editor \
         --allow-root
 

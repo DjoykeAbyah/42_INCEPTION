@@ -1,4 +1,4 @@
-COMPOSE = docker-compose -f srcs/docker-compose.yml --env-file srcs/.env
+COMPOSE = docker compose -f srcs/docker-compose.yml --env-file srcs/.env
 
 # build all images and bring containers up in background
 all: build up
